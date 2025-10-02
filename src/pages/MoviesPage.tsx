@@ -1,14 +1,9 @@
 import React, { useState } from 'react';
-import { useGetPopularMoviesQuery,useGetTopRatedMoviesQuery } from '../services/api';
+import { useGetPopularMoviesQuery, useGetTopRatedMoviesQuery } from '../services/api';
+import MovieCard from '../components/MovieCard'; 
 import '../styles/MoviesPage.scss';
 
 type MovieSortType = 'popular' | 'top_rated';
-
-const getRatingColor = (rating: number): string => {
-  if (rating >= 7) return 'green';
-  if (rating >= 5) return 'orange';
-  return 'red';
-};
 
 const MoviesPage = () => {
   const [sortType, setSortType] = useState<MovieSortType>('popular');
@@ -17,17 +12,13 @@ const MoviesPage = () => {
     data: popularMoviesData, 
     isLoading: isPopularLoading, 
     error: popularError 
-  } = useGetPopularMoviesQuery(undefined, {
-    skip: sortType !== 'popular',
-  });
+  } = useGetPopularMoviesQuery(undefined, { skip: sortType !== 'popular' });
 
   const { 
     data: topRatedMoviesData, 
     isLoading: isTopRatedLoading, 
     error: topRatedError 
-  } = useGetTopRatedMoviesQuery(undefined, {
-    skip: sortType !== 'top_rated',
-  });
+  } = useGetTopRatedMoviesQuery(undefined, { skip: sortType !== 'top_rated' });
   
   const data = sortType === 'popular' ? popularMoviesData : topRatedMoviesData;
   const isLoading = isPopularLoading || isTopRatedLoading;
@@ -66,29 +57,7 @@ const MoviesPage = () => {
 
       <div className="movies-page__list">
         {data && data.results.map(movie => (
-          <div key={movie.id} className="movie-card">
-            <div className="movie-card__poster-wrapper">
-              {movie.poster_path ? (
-                <img
-                  src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
-                  alt={movie.title}
-                  className="movie-card__poster"
-                  loading="lazy"
-                />
-              ) : (
-                <div className="movie-card__poster-placeholder">
-                  <span>Постер недоступен</span>
-                </div>
-              )}
-            </div>
-
-            <div className="movie-card__info">
-              <h3 className="movie-card__title">{movie.title}</h3>
-              <div className={`movie-card__rating movie-card__rating--${getRatingColor(movie.vote_average)}`}>
-                {movie.vote_average.toFixed(1)}
-              </div>
-            </div>
-          </div>
+          <MovieCard key={movie.id} movie={movie} />
         ))}
       </div>
     </div>

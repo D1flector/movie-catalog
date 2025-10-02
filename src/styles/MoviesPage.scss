@@ -3,8 +3,6 @@ $color-text: #e2e2e2;
 $color-accent: #9f5dff;
 $transition-speed: 0.3s;
 $card-background: #22252c;
-$card-shadow-color: rgba($color-accent, 0.2);
-$card-border-radius: 8px;
 
 .movies-page {
   padding: 2rem;
@@ -70,82 +68,5 @@ $card-border-radius: 8px;
   &.active {
     background-color: $color-accent;
     color: white;
-  }
-}
-
-.movie-card {
-  background-color: $card-background;
-  border-radius: $card-border-radius;
-  overflow: hidden;
-  display: flex;
-  flex-direction: column;
-  border: 2px solid transparent; 
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
-  transition: border-color $transition-speed ease, box-shadow $transition-speed ease;
-
-  &:hover {
-    border-color: $color-accent;
-    box-shadow: 0 8px 25px $card-shadow-color;
-  }
-
-  &__poster-wrapper {
-    position: relative;
-    aspect-ratio: 2 / 3;
-    background-color: darken($card-background, 5%);
-    cursor: pointer;
-  }
-  
-  &__poster {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-  }
-  
-  &__poster-placeholder {
-    width: 100%;
-    height: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-    font-size: 0.9rem;
-    color: lighten($color-background, 30%);
-  }
-
-  &__info {
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
-    gap: 0.75rem;
-    padding: 1rem;
-    flex-grow: 1;
-  }
-
-  &__title {
-    font-size: 1.05rem;
-    font-weight: 600;
-    line-height: 1.3;
-    display: -webkit-box;
-    -webkit-line-clamp: 2;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
-  }
-  
-  &__rating {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-shrink: 0;
-
-    font-size: 0.9rem;
-    font-weight: 700;
-    
-    padding: 0.25rem 0.5rem;
-    border: 2px solid;
-    border-radius: 6px;
-
-    &--green { color: #23d160; border-color: #23d160; }
-    &--orange { color: #ffdd57; border-color: #ffdd57; }
-    &--red { color: #ff3860; border-color: #ff3860; }
   }
 }
