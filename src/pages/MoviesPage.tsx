@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { useGetPopularMoviesQuery, useGetTopRatedMoviesQuery } from '../services/api';
 import MovieCard from '../components/MovieCard'; 
 import '../styles/MoviesPage.scss';

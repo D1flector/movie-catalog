@@ -19,7 +19,7 @@ export const api = createApi({
       query: (page = 1) => `/movie/top_rated?api_key=${API_KEY}&language=ru-RU&page=${page}`,
     }),
     getMovieDetails: build.query<MovieDetails, number>({
-      query: (id) => `/movie/${id}?api_key=${API_KEY}&language=ru-RU`,
+      query: (id) => `/movie/${id}?api_key=${API_KEY}&language=ru-RU&append_to_response=videos,credits`,
     }),
     getPopularTvShows: build.query<PaginatedResponse<TvListItem>, number | void>({
       query: (page = 1) => `/tv/popular?api_key=${API_KEY}&language=ru-RU&page=${page}`,
