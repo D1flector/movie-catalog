@@ -1,8 +1,14 @@
 import { useParams, useNavigate } from 'react-router-dom';
 import { useGetMovieDetailsQuery } from '../services/api';
+
+import { Swiper, SwiperSlide } from 'swiper/react';
+import { Navigation } from 'swiper/modules';
+import 'swiper/css';
+import 'swiper/css/navigation';
+
 import '../styles/MoviePage.scss';
 
-const formatRuntime = (minutes: number | null) => {
+const formatRuntime = (minutes: number | null): string => {
   if (!minutes) return '';
   const hours = Math.floor(minutes / 60);
   const mins = minutes % 60;
@@ -21,7 +27,7 @@ const MoviePage = () => {
 
   const releaseDate = new Date(movie.release_date).toLocaleDateString('ru-RU', { year: 'numeric', month: 'long', day: 'numeric' });
   const trailer = movie.videos?.results.find(video => video.type === 'Trailer' && video.site === 'YouTube');
-  const mainActors = movie.credits?.cast.slice(0, 10);
+  const mainActors = movie.credits?.cast.slice(0, 20);
   
   const backdropStyle = movie.backdrop_path 
     ? { backgroundImage: `url(https://image.tmdb.org/t/p/original${movie.backdrop_path})` }
@@ -34,6 +40,10 @@ const MoviePage = () => {
       </div>
       
       <div className="movie-page__content">
+        <button onClick={() => navigate(-1)} className="movie-page__back-button">
+          Назад к списку
+        </button>
+
         <div className="movie-page__poster">
           {movie.poster_path ? (
             <img src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`} alt={movie.title} />
@@ -65,6 +75,7 @@ const MoviePage = () => {
               <iframe
                 src={`https://www.youtube.com/embed/${trailer.key}`}
                 title={trailer.name}
+                frameBorder="0"
                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                 allowFullScreen
               ></iframe>
@@ -75,22 +86,29 @@ const MoviePage = () => {
         {mainActors && mainActors.length > 0 && (
           <div className="movie-page__section">
             <h2 className="movie-page__section-title">В главных ролях</h2>
-            <ul className="actors-list">
+            <Swiper
+              modules={[Navigation]}
+              navigation
+              spaceBetween={20}
+              slidesPerView={'auto'}
+              className="cast-slider"
+            >
               {mainActors.map(actor => (
-                <li key={actor.id} className="actors-list__item">
-                  <span className="actors-list__name">{actor.name}</span>
-                  <span className="actors-list__character">{actor.character}</span>
-                </li>
+                <SwiperSlide key={actor.id} className="actor-card">
+                  <div className="actor-card__image-wrapper">
+                    {actor.profile_path ? (
+                      <img src={`https://image.tmdb.org/t/p/w200${actor.profile_path}`} alt={actor.name} />
+                    ) : (
+                      <div className="actor-card__placeholder"></div>
+                    )}
+                  </div>
+                  <p className="actor-card__name">{actor.name}</p>
+                  <p className="actor-card__character">{actor.character}</p>
+                </SwiperSlide>
               ))}
-            </ul>
+            </Swiper>
           </div>
         )}
-      </div>
-
-      <div className="movie-page__back-button-wrapper">
-        <button onClick={() => navigate(-1)} className="movie-page__back-button">
-          Назад к списку
-        </button>
       </div>
     </div>
   );
