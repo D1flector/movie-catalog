@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React from 'react';
+import { useSearchParams } from 'react-router-dom';
 import {
   useGetPopularMoviesQuery,
   useGetTopRatedMoviesQuery,
@@ -10,7 +11,9 @@ import '../styles/MoviesPage.scss';
 type MovieSortType = 'popular' | 'top_rated' | 'now_playing';
 
 const MoviesPage = () => {
-  const [sortType, setSortType] = useState<MovieSortType>('popular');
+  const [searchParams, setSearchParams] = useSearchParams();
+
+  const sortType = (searchParams.get('sort') as MovieSortType) || 'popular';
 
   const { 
     data: popularMoviesData, 
@@ -29,7 +32,7 @@ const MoviesPage = () => {
     isLoading: isNowPlayingLoading, 
     error: nowPlayingError 
   } = useGetNowPlayingMoviesQuery(undefined, { skip: sortType !== 'now_playing' });
-
+  
   const dataMap = {
     popular: popularMoviesData,
     top_rated: topRatedMoviesData,
@@ -51,7 +54,7 @@ const MoviesPage = () => {
   const data = dataMap[sortType];
   const isLoading = isLoadingMap[sortType];
   const error = errorMap[sortType];
-
+  
   if (isLoading) {
     return <div className="movies-page__loader">Загрузка...</div>;
   }
@@ -59,6 +62,10 @@ const MoviesPage = () => {
   if (error) {
     return <div className="movies-page__error">Произошла ошибка при загрузке фильмов.</div>;
   }
+
+  const handleSortChange = (type: MovieSortType) => {
+    setSearchParams({ sort: type });
+  };
 
   return (
     <div className="movies-page">
@@ -72,19 +79,19 @@ const MoviesPage = () => {
         <div className="movies-page__filters">
           <button 
             className={`filter-button ${sortType === 'popular' ? 'active' : ''}`}
-            onClick={() => setSortType('popular')}
+            onClick={() => handleSortChange('popular')}
           >
             Популярные
           </button>
           <button 
             className={`filter-button ${sortType === 'top_rated' ? 'active' : ''}`}
-            onClick={() => setSortType('top_rated')}
+            onClick={() => handleSortChange('top_rated')}
           >
             Топ рейтинга
           </button>
           <button 
             className={`filter-button ${sortType === 'now_playing' ? 'active' : ''}`}
-            onClick={() => setSortType('now_playing')}
+            onClick={() => handleSortChange('now_playing')}
           >
             Сейчас в кино
           </button>
