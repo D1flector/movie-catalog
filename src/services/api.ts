@@ -2,6 +2,7 @@ import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import type { MovieListItem, MovieDetails } from "../types/movie";
 import type { TvListItem, TvDetails } from "../types/tv";
 import type { PaginatedResponse } from "../types/api";
+import type { GenresResponse } from "../types/common";
 
 const API_KEY = import.meta.env.VITE_TMDB_KEY;
 const BASE_URL = 'https://api.themoviedb.org/3'
@@ -33,6 +34,9 @@ export const api = createApi({
     getTvShowDetails: build.query<TvDetails, number>({
       query: (id) => `/tv/${id}?api_key=${API_KEY}&language=ru-RU`,
     }),
+    getMovieGenres: build.query<GenresResponse, void>({
+      query: () => `/genre/movie/list?api_key=${API_KEY}&language=ru-RU`,
+    })
 
   })
 })
@@ -44,5 +48,6 @@ export const {
   useGetMovieDetailsQuery,
   useGetPopularTvShowsQuery,
   useGetTopRatedTvShowsQuery,
-  useGetTvShowDetailsQuery
+  useGetTvShowDetailsQuery,
+  useGetMovieGenresQuery
 } = api;

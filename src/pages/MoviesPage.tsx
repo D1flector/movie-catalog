@@ -3,10 +3,11 @@ import { useSearchParams } from 'react-router-dom';
 import {
   useGetPopularMoviesQuery,
   useGetTopRatedMoviesQuery,
-  useGetNowPlayingMoviesQuery
+  useGetNowPlayingMoviesQuery,
+  useGetMovieGenresQuery
 } from '../services/api';
 import MovieCard from '../components/MovieCard'; 
-import '../styles/MoviesPage.scss';
+import '../styles//MoviesPage.scss';
 
 type MovieSortType = 'popular' | 'top_rated' | 'now_playing';
 
@@ -32,6 +33,13 @@ const MoviesPage = () => {
     isLoading: isNowPlayingLoading, 
     error: nowPlayingError 
   } = useGetNowPlayingMoviesQuery(undefined, { skip: sortType !== 'now_playing' });
+
+  const {
+    data: genresData,
+    isLoading: isGenresLoading,
+    error: genresError
+  } = useGetMovieGenresQuery();
+  const genres = genresData?.genres;
   
   const dataMap = {
     popular: popularMoviesData,
@@ -52,15 +60,15 @@ const MoviesPage = () => {
   };
 
   const data = dataMap[sortType];
-  const isLoading = isLoadingMap[sortType];
-  const error = errorMap[sortType];
+  const isLoading = isLoadingMap[sortType] || isGenresLoading;
+  const error = errorMap[sortType] || genresError;
   
   if (isLoading) {
     return <div className="movies-page__loader">Загрузка...</div>;
   }
 
   if (error) {
-    return <div className="movies-page__error">Произошла ошибка при загрузке фильмов.</div>;
+    return <div className="movies-page__error">Произошла ошибка при загрузке данных.</div>;
   }
 
   const handleSortChange = (type: MovieSortType) => {
@@ -76,25 +84,36 @@ const MoviesPage = () => {
           {sortType === 'now_playing' && 'Сейчас в кино'}
         </h1>
         
-        <div className="movies-page__filters">
-          <button 
-            className={`filter-button ${sortType === 'popular' ? 'active' : ''}`}
-            onClick={() => handleSortChange('popular')}
-          >
-            Популярные
-          </button>
-          <button 
-            className={`filter-button ${sortType === 'top_rated' ? 'active' : ''}`}
-            onClick={() => handleSortChange('top_rated')}
-          >
-            Топ рейтинга
-          </button>
-          <button 
-            className={`filter-button ${sortType === 'now_playing' ? 'active' : ''}`}
-            onClick={() => handleSortChange('now_playing')}
-          >
-            Сейчас в кино
-          </button>
+        <div className="movies-page__controls">
+          <div className="movies-page__filters">
+            <button 
+              className={`filter-button ${sortType === 'popular' ? 'active' : ''}`}
+              onClick={() => handleSortChange('popular')}
+            >
+              Популярные
+            </button>
+            <button 
+              className={`filter-button ${sortType === 'top_rated' ? 'active' : ''}`}
+              onClick={() => handleSortChange('top_rated')}
+            >
+              Топ рейтинга
+            </button>
+            <button 
+              className={`filter-button ${sortType === 'now_playing' ? 'active' : ''}`}
+              onClick={() => handleSortChange('now_playing')}
+            >
+              Сейчас в кино
+            </button>
+          </div>
+          <div className="movies-page__genre-filter">
+            <label htmlFor="genre-select" className="genre-filter__label">Фильтр по жанру:</label>
+            <select id="genre-select" className="genre-filter__select">
+              <option value="">все жанры</option>
+              {genres && genres.map(genre => (
+                <option key={genre.id} value={genre.id}>{genre.name}</option>
+              ))}
+            </select>
+          </div>
         </div>
       </div>
 
