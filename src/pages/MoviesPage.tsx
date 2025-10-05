@@ -1,9 +1,13 @@
-import { useState } from 'react';
-import { useGetPopularMoviesQuery, useGetTopRatedMoviesQuery } from '../services/api';
+import React, { useState } from 'react';
+import {
+  useGetPopularMoviesQuery,
+  useGetTopRatedMoviesQuery,
+  useGetNowPlayingMoviesQuery
+} from '../services/api';
 import MovieCard from '../components/MovieCard'; 
 import '../styles/MoviesPage.scss';
 
-type MovieSortType = 'popular' | 'top_rated';
+type MovieSortType = 'popular' | 'top_rated' | 'now_playing';
 
 const MoviesPage = () => {
   const [sortType, setSortType] = useState<MovieSortType>('popular');
@@ -19,10 +23,34 @@ const MoviesPage = () => {
     isLoading: isTopRatedLoading, 
     error: topRatedError 
   } = useGetTopRatedMoviesQuery(undefined, { skip: sortType !== 'top_rated' });
-  
-  const data = sortType === 'popular' ? popularMoviesData : topRatedMoviesData;
-  const isLoading = isPopularLoading || isTopRatedLoading;
-  const error = popularError || topRatedError;
+
+  const { 
+    data: nowPlayingMoviesData, 
+    isLoading: isNowPlayingLoading, 
+    error: nowPlayingError 
+  } = useGetNowPlayingMoviesQuery(undefined, { skip: sortType !== 'now_playing' });
+
+  const dataMap = {
+    popular: popularMoviesData,
+    top_rated: topRatedMoviesData,
+    now_playing: nowPlayingMoviesData,
+  };
+
+  const isLoadingMap = {
+    popular: isPopularLoading,
+    top_rated: isTopRatedLoading,
+    now_playing: isNowPlayingLoading,
+  };
+
+  const errorMap = {
+    popular: popularError,
+    top_rated: topRatedError,
+    now_playing: nowPlayingError,
+  };
+
+  const data = dataMap[sortType];
+  const isLoading = isLoadingMap[sortType];
+  const error = errorMap[sortType];
 
   if (isLoading) {
     return <div className="movies-page__loader">Загрузка...</div>;
@@ -36,7 +64,9 @@ const MoviesPage = () => {
     <div className="movies-page">
       <div className="movies-page__header">
         <h1 className="movies-page__title">
-          {sortType === 'popular' ? 'Популярные фильмы' : 'Фильмы с высоким рейтингом'}
+          {sortType === 'popular' && 'Популярные фильмы'}
+          {sortType === 'top_rated' && 'Фильмы с высоким рейтингом'}
+          {sortType === 'now_playing' && 'Сейчас в кино'}
         </h1>
         
         <div className="movies-page__filters">
@@ -51,6 +81,12 @@ const MoviesPage = () => {
             onClick={() => setSortType('top_rated')}
           >
             Топ рейтинга
+          </button>
+          <button 
+            className={`filter-button ${sortType === 'now_playing' ? 'active' : ''}`}
+            onClick={() => setSortType('now_playing')}
+          >
+            Сейчас в кино
           </button>
         </div>
       </div>

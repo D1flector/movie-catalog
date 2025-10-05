@@ -18,6 +18,9 @@ export const api = createApi({
     getTopRatedMovies: build.query<PaginatedResponse<MovieListItem>, number | void>({
       query: (page = 1) => `/movie/top_rated?api_key=${API_KEY}&language=ru-RU&page=${page}`,
     }),
+    getNowPlayingMovies: build.query<PaginatedResponse<MovieListItem>, number | void>({
+      query: (page = 1) => `/movie/now_playing?api_key=${API_KEY}&language=ru-RU&page=${page}`,
+    }),    
     getMovieDetails: build.query<MovieDetails, number>({
       query: (id) => `/movie/${id}?api_key=${API_KEY}&language=ru-RU&append_to_response=videos,credits`,
     }),
@@ -37,6 +40,7 @@ export const api = createApi({
 export const {
   useGetPopularMoviesQuery,
   useGetTopRatedMoviesQuery,
+  useGetNowPlayingMoviesQuery,
   useGetMovieDetailsQuery,
   useGetPopularTvShowsQuery,
   useGetTopRatedTvShowsQuery,
