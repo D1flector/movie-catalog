@@ -70,3 +70,42 @@ $card-background: #22252c;
     color: white;
   }
 }
+
+// --- СТИЛИ ДЛЯ ПАГИНАЦИИ ---
+.pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1.5rem;
+  margin-top: 3rem; // Отступ сверху от сетки фильмов
+  padding-bottom: 2rem; // Отступ снизу страницы
+
+  &__info {
+    font-size: 1.2rem;
+    font-weight: 500;
+    color: darken($color-text, 10%);
+  }
+
+  &__button {
+    background-color: $card-background;
+    color: $color-text;
+    border: 1px solid lighten($card-background, 10%);
+    padding: 0.4rem 1.2rem;
+    border-radius: 6px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all $transition-speed ease;
+
+    &:hover:not(:disabled) {
+      background-color: $color-accent;
+      border-color: $color-accent;
+      color: white;
+    }
+
+    &:disabled {
+      opacity: 0.4;
+      cursor: not-allowed;
+    }
+  }
+}

@@ -14,24 +14,26 @@ const MoviesPage = () => {
   const [searchParams, setSearchParams] = useSearchParams();
 
   const sortType = (searchParams.get('sort') as MovieSortType) || 'popular';
+  const pageFromUrl = searchParams.get('page');
+  const currentPage = Number(pageFromUrl) || 1;
 
   const { 
     data: popularMoviesData, 
     isLoading: isPopularLoading, 
     error: popularError 
-  } = useGetPopularMoviesQuery(undefined, { skip: sortType !== 'popular' });
+  } = useGetPopularMoviesQuery(currentPage, { skip: sortType !== 'popular' });
 
   const { 
     data: topRatedMoviesData, 
     isLoading: isTopRatedLoading, 
     error: topRatedError 
-  } = useGetTopRatedMoviesQuery(undefined, { skip: sortType !== 'top_rated' });
+  } = useGetTopRatedMoviesQuery(currentPage, { skip: sortType !== 'top_rated' });
 
   const { 
     data: nowPlayingMoviesData, 
     isLoading: isNowPlayingLoading, 
     error: nowPlayingError 
-  } = useGetNowPlayingMoviesQuery(undefined, { skip: sortType !== 'now_playing' });
+  } = useGetNowPlayingMoviesQuery(currentPage, { skip: sortType !== 'now_playing' });
   
   const dataMap = {
     popular: popularMoviesData,
@@ -63,8 +65,13 @@ const MoviesPage = () => {
     return <div className="movies-page__error">Произошла ошибка при загрузке фильмов.</div>;
   }
 
+  const handlePageChange = (newPage: number) => {
+    const params = Object.fromEntries(searchParams.entries());
+    setSearchParams({ ...params, page: String(newPage) });
+  };  
+
   const handleSortChange = (type: MovieSortType) => {
-    setSearchParams({ sort: type });
+    setSearchParams({ sort: type, page: '1' });
   };
 
   return (
@@ -103,6 +110,28 @@ const MoviesPage = () => {
           <MovieCard key={movie.id} movie={movie} />
         ))}
       </div>
+
+      {data && data.results.length > 0 && (
+        <div className="pagination">
+          <button 
+            onClick={() => handlePageChange(currentPage - 1)}
+            disabled={currentPage === 1}
+            className="pagination__button"
+          >
+            Назад
+          </button>
+          <span className="pagination__info">
+            Страница {currentPage} из {data.total_pages > 500 ? 500 : data.total_pages}
+          </span>
+          <button 
+            onClick={() => handlePageChange(currentPage + 1)}
+            disabled={currentPage >= (data.total_pages > 500 ? 500 : data.total_pages)}
+            className="pagination__button"
+          >
+            Вперед
+          </button>
+        </div>
+      )}
     </div>
   );
 };
