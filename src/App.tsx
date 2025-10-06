@@ -7,6 +7,7 @@ import TvPage from "./pages/TvPage"
 import MoviePage from "./pages/MoviePage"
 
 import Header from "./components/Header"
+import './styles/App.scss'
 
 function App() {
 
