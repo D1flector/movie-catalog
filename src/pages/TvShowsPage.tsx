@@ -1,9 +1,9 @@
-import{ useMediaList } from '../hooks/useMediaList';
+import { useMediaList } from '../hooks/useMediaList';
 import type { MediaSortType } from '../hooks/useMediaList';
-import MovieCard from '../components/MovieCard'; 
+import TvCard from '../components/TvCard';
 import '../styles/MoviesPage.scss';
 
-const MoviesPage = () => {
+const TvShowsPage = () => {
   const {
     data,
     isLoading,
@@ -12,14 +12,14 @@ const MoviesPage = () => {
     currentPage,
     handlePageChange,
     handleSortChange,
-  } = useMediaList('movie');
+  } = useMediaList('tv');
 
   if (isLoading) {
     return <div className="movies-page__loader">Загрузка...</div>;
   }
 
   if (error) {
-    return <div className="movies-page__error">Произошла ошибка при загрузке фильмов.</div>;
+    return <div className="movies-page__error">Произошла ошибка при загрузке сериалов.</div>;
   }
   
   const onSortChange = (type: MediaSortType) => handleSortChange(type);
@@ -28,9 +28,9 @@ const MoviesPage = () => {
     <div className="movies-page">
       <div className="movies-page__header">
         <h1 className="movies-page__title">
-          {sortType === 'popular' && 'Популярные фильмы'}
-          {sortType === 'top_rated' && 'Фильмы с высоким рейтингом'}
-          {sortType === 'now_playing' && 'Сейчас в кино'}
+          {sortType === 'popular' && 'Популярные сериалы'}
+          {sortType === 'top_rated' && 'Сериалы с высоким рейтингом'}
+          {sortType === 'on_the_air' && 'Сейчас в эфире'}
         </h1>
         
         <div className="movies-page__filters">
@@ -47,17 +47,17 @@ const MoviesPage = () => {
             Топ рейтинга
           </button>
           <button 
-            className={`filter-button ${sortType === 'now_playing' ? 'active' : ''}`}
-            onClick={() => onSortChange('now_playing')}
+            className={`filter-button ${sortType === 'on_the_air' ? 'active' : ''}`}
+            onClick={() => onSortChange('on_the_air')}
           >
-            Сейчас в кино
+            В эфире
           </button>
         </div>
       </div>
 
       <div className="movies-page__list">
-        {data && data.results.map(movie => (
-          <MovieCard key={movie.id} movie={movie} />
+        {data && data.results.map(tvShow => (
+          <TvCard key={tvShow.id} tvShow={tvShow} />
         ))}
       </div>
 
@@ -86,4 +86,4 @@ const MoviesPage = () => {
   );
 };
 
-export default MoviesPage;
+export default TvShowsPage;

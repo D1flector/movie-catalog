@@ -30,8 +30,11 @@ export const api = createApi({
     getTopRatedTvShows: build.query<PaginatedResponse<TvListItem>, number | void>({
       query: (page = 1) => `/tv/top_rated?api_key=${API_KEY}&language=ru-RU&page=${page}`,
     }),
+    getOnTheAirTvShows: build.query<PaginatedResponse<TvListItem>, number | void>({
+      query: (page = 1) => `/tv/on_the_air?api_key=${API_KEY}&language=ru-RU&page=${page}`,
+    }), 
     getTvShowDetails: build.query<TvDetails, number>({
-      query: (id) => `/tv/${id}?api_key=${API_KEY}&language=ru-RU`,
+      query: (id) => `/tv/${id}?api_key=${API_KEY}&language=ru-RU&append_to_response=videos,credits`,
     }),
 
   })
@@ -44,5 +47,6 @@ export const {
   useGetMovieDetailsQuery,
   useGetPopularTvShowsQuery,
   useGetTopRatedTvShowsQuery,
+  useGetOnTheAirTvShowsQuery,
   useGetTvShowDetailsQuery,
 } = api;
