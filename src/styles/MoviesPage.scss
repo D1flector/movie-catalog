@@ -13,7 +13,7 @@ $card-background: #22252c;
   &__header {
     display: flex;
     justify-content: space-between;
-    align-items: center;
+    align-items: flex-start;
     margin-bottom: 2.5rem;
     flex-wrap: wrap;
     gap: 1.5rem;
@@ -23,16 +23,30 @@ $card-background: #22252c;
     font-size: 2.5rem;
     font-weight: 600;
     margin-bottom: 0;
+    margin-right: 2rem;
     text-align: left;
     color: $color-accent; 
   }
   
+  &__controls {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 1rem;
+  }
+
   &__filters {
     display: flex;
     gap: 1rem;
     background-color: darken($color-background, 3%);
     padding: 0.5rem;
     border-radius: 8px;
+  }
+
+  &__genre-filter {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
   }
 
   &__list {
@@ -47,6 +61,40 @@ $card-background: #22252c;
     align-items: center;
     min-height: 50vh;
     font-size: 1.5rem;
+  }
+}
+
+.genre-filter {
+  &__label {
+    font-size: 1.1rem;
+    font-weight: 500;
+    color: darken($color-text, 10%);
+  }
+
+  &__select {
+    background-color: $card-background;
+    color: $color-text;
+    border: 1px solid lighten($card-background, 5%);
+    border-radius: 6px;
+    padding: 0.5rem 1rem;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: border-color $transition-speed ease;
+
+    &:hover {
+      border-color: $color-accent;
+    }
+
+    &:focus {
+      outline: none;
+      border-color: $color-accent;
+      box-shadow: 0 0 0 2px rgba($color-accent, 0.5);
+    }
+
+    option {
+      background-color: $card-background;
+      color: $color-text;
+    }
   }
 }
 
@@ -71,14 +119,13 @@ $card-background: #22252c;
   }
 }
 
-// --- СТИЛИ ДЛЯ ПАГИНАЦИИ ---
 .pagination {
   display: flex;
   justify-content: center;
   align-items: center;
   gap: 1.5rem;
-  margin-top: 3rem; // Отступ сверху от сетки фильмов
-  padding-bottom: 2rem; // Отступ снизу страницы
+  margin-top: 3rem;
+  padding-bottom: 2rem;
 
   &__info {
     font-size: 1.2rem;

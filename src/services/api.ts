@@ -44,5 +44,5 @@ export const {
   useGetMovieDetailsQuery,
   useGetPopularTvShowsQuery,
   useGetTopRatedTvShowsQuery,
-  useGetTvShowDetailsQuery
+  useGetTvShowDetailsQuery,
 } = api;
