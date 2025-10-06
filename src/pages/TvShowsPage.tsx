@@ -1,7 +1,7 @@
 import { useMediaList } from '../hooks/useMediaList';
 import type { MediaSortType } from '../hooks/useMediaList';
 import TvCard from '../components/TvCard';
-import '../styles/MoviesPage.scss';
+import '../styles/MediaListPage.scss';
 
 const TvShowsPage = () => {
   const {
@@ -15,25 +15,25 @@ const TvShowsPage = () => {
   } = useMediaList('tv');
 
   if (isLoading) {
-    return <div className="movies-page__loader">Загрузка...</div>;
+    return <div className="media-list-page__loader">Загрузка...</div>;
   }
 
   if (error) {
-    return <div className="movies-page__error">Произошла ошибка при загрузке сериалов.</div>;
+    return <div className="media-list-page__error">Произошла ошибка при загрузке сериалов.</div>;
   }
   
   const onSortChange = (type: MediaSortType) => handleSortChange(type);
 
   return (
-    <div className="movies-page">
-      <div className="movies-page__header">
-        <h1 className="movies-page__title">
+    <div className="media-list-page">
+      <div className="media-list-page__header">
+        <h1 className="media-list-page__title">
           {sortType === 'popular' && 'Популярные сериалы'}
           {sortType === 'top_rated' && 'Сериалы с высоким рейтингом'}
           {sortType === 'on_the_air' && 'Сейчас в эфире'}
         </h1>
         
-        <div className="movies-page__filters">
+        <div className="media-list-page__filters">
           <button 
             className={`filter-button ${sortType === 'popular' ? 'active' : ''}`}
             onClick={() => onSortChange('popular')}
@@ -55,7 +55,7 @@ const TvShowsPage = () => {
         </div>
       </div>
 
-      <div className="movies-page__list">
+      <div className="media-list-page__list">
         {data && data.results.map(tvShow => (
           <TvCard key={tvShow.id} tvShow={tvShow} />
         ))}
