@@ -7,10 +7,15 @@ $transition-speed: 0.3s;
   background-color: $color-background;
   padding: 1rem 2rem;
   box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
+  
+  display: flex;
+  justify-content: center;
+  align-items: center;
 
   &__nav {
     display: flex;
     justify-content: center;
+    align-items: center;
     gap: 2rem;
   }
 
