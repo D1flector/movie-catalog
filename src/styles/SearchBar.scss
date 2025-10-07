@@ -1,0 +1,61 @@
+$color-background: #181a1f;
+$color-text: #e2e2e2;
+$color-accent: #9f5dff;
+$transition-speed: 0.3s;
+$card-background: #22252c;
+
+.search-bar {
+  display: flex;
+  align-items: center;
+  background-color: $card-background;
+  border: 1px solid lighten($card-background, 10%);
+  border-radius: 25px;
+  padding: 0.25rem 0.5rem 0.25rem 1rem;
+  transition: border-color $transition-speed ease, box-shadow $transition-speed ease;
+  min-width: 250px;
+
+  &:focus-within {
+    border-color: $color-accent;
+    box-shadow: 0 0 0 3px rgba($color-accent, 0.4);
+  }
+
+  &__input {
+    background: none;
+    border: none;
+    color: $color-text;
+    font-size: 1rem;
+    width: 100%;
+    
+    &:focus {
+      outline: none;
+    }
+
+    &::placeholder {
+      color: darken($color-text, 40%);
+    }
+  }
+
+  &__button {
+    background-color: transparent;
+    border: none;
+    color: darken($color-text, 30%);
+    padding: 0.5rem;
+    margin-left: 0.5rem;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: color $transition-speed ease, background-color $transition-speed ease;
+
+    svg {
+      width: 20px;
+      height: 20px;
+    }
+
+    &:hover {
+      color: white;
+      background-color: $color-accent;
+    }
+  }
+}
