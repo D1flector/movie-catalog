@@ -6,18 +6,20 @@ import { Navigation } from 'swiper/modules';
 import 'swiper/css';
 import 'swiper/css/navigation';
 
+import { useSelector, useDispatch } from 'react-redux';
+import { addFavourite, deleteFavourite } from '../store/slices/favouriteSlice';
+import type { FavouriteItem } from '../store/slices/favouriteSlice';
+
 import '../styles/MediaPage.scss';
 import type { TvDetails } from '../types/tv';
+
 const formatAirDates = (tvShow: TvDetails): string => {
   if (!tvShow.first_air_date) return '';
-
   const firstYear = new Date(tvShow.first_air_date).getFullYear();
-  
   if (tvShow.status === 'Ended' && tvShow.last_air_date) {
     const lastYear = new Date(tvShow.last_air_date).getFullYear();
     return firstYear === lastYear ? `${firstYear} г.` : `${firstYear} г. – ${lastYear} г.`;
   }
-
   return `${firstYear} г. – наст. время`;
 };
 
@@ -46,6 +48,20 @@ const TvShowPage = () => {
 
   const { data: tvShow, isLoading, error } = useGetTvShowDetailsQuery(tvShowId, { skip: !tvShowId });
 
+  const dispatch = useDispatch();
+  const currentTvItem: FavouriteItem = { id: tvShowId, type: 'tv' };
+  const isFavorite = useSelector((state: { favourite: { items: FavouriteItem[] } }) => 
+    state.favourite.items.some(item => item.id === tvShowId && item.type === 'tv')
+  );
+
+  const handleFavoriteClick = () => {
+    if (isFavorite) {
+      dispatch(deleteFavourite(currentTvItem));
+    } else {
+      dispatch(addFavourite(currentTvItem));
+    }
+  };
+
   if (isLoading) return <div className="media-page-status">Загрузка...</div>;
   if (error || !tvShow) return <div className="media-page-status">Не удалось загрузить информацию о сериале.</div>;
 
@@ -62,11 +78,19 @@ const TvShowPage = () => {
         <div className="media-page__backdrop-overlay"></div>
       </div>
       
-      <div className="media-page__content">
+      <div className="media-page__top-bar">
         <button onClick={() => navigate(-1)} className="media-page__back-button">
           Назад к списку
         </button>
+        <button 
+          className={`favorite-button ${isFavorite ? 'active' : ''}`}
+          onClick={handleFavoriteClick}
+        >
+          {isFavorite ? '✓ В избранном' : '+ Добавить в избранное'}
+        </button>
+      </div>
 
+      <div className="media-page__content">
         <div className="media-page__poster">
           {tvShow.poster_path ? <img src={`https://image.tmdb.org/t/p/w500${tvShow.poster_path}`} alt={tvShow.name} /> : <div className="media-page__poster-placeholder">Постер недоступен</div>}
         </div>

@@ -6,6 +6,10 @@ import { Navigation } from 'swiper/modules';
 import 'swiper/css';
 import 'swiper/css/navigation';
 
+import { useSelector, useDispatch } from 'react-redux';
+import { addFavourite, deleteFavourite } from '../store/slices/favouriteSlice';
+import type { FavouriteItem } from '../store/slices/favouriteSlice';
+
 import '../styles/MediaPage.scss';
 
 const formatRuntime = (minutes: number | null): string => {
@@ -22,10 +26,23 @@ const MoviePage = () => {
 
   const { data: movie, isLoading, error } = useGetMovieDetailsQuery(movieId, { skip: !movieId });
 
+  const dispatch = useDispatch();
+  const favoriteItems = useSelector((state: { favourite: { items: FavouriteItem[] } }) => state.favourite.items);
+  const isFavorite = favoriteItems.some(item => item.id === movieId && item.type === 'movie');
+
+  const handleFavoriteClick = () => {
+    const currentMovieItem: FavouriteItem = { id: movieId, type: 'movie' };
+    if (isFavorite) {
+      dispatch(deleteFavourite(currentMovieItem));
+    } else {
+      dispatch(addFavourite(currentMovieItem));
+    }
+  };
+
   if (isLoading) return <div className="media-page-status">Загрузка...</div>;
   if (error || !movie) return <div className="media-page-status">Не удалось загрузить информацию о фильме.</div>;
 
-  const releaseDate = new Date(movie.release_date).toLocaleDateString('ru-RU', { year: 'numeric', month: 'long', day: 'numeric' });
+  const releaseDate = new Date(movie.release_date).toLocaleString('ru-RU', { year: 'numeric', month: 'long', day: 'numeric' });
   const trailer = movie.videos?.results.find(video => video.type === 'Trailer' && video.site === 'YouTube');
   const mainActors = movie.credits?.cast.slice(0, 20);
   
@@ -39,11 +56,19 @@ const MoviePage = () => {
         <div className="media-page__backdrop-overlay"></div>
       </div>
       
-      <div className="media-page__content">
+      <div className="media-page__top-bar">
         <button onClick={() => navigate(-1)} className="media-page__back-button">
           Назад к списку
         </button>
+        <button 
+          className={`favorite-button ${isFavorite ? 'active' : ''}`}
+          onClick={handleFavoriteClick}
+        >
+          {isFavorite ? '✓ В избранном' : '+ Добавить в избранное'}
+        </button>
+      </div>
 
+      <div className="media-page__content">
         <div className="media-page__poster">
           {movie.poster_path ? (
             <img src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`} alt={movie.title} />

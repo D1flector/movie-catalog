@@ -46,12 +46,23 @@ $transition-speed: 0.3s;
     background-color: rgba(0, 0, 0, 0.5);
   }
 
+  &__top-bar {
+    position: relative;
+    z-index: 3;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 2rem 2rem 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
   &__content {
     position: relative;
     z-index: 2;
     max-width: 1200px;
     margin: 0 auto;
-    padding: 15vh 2rem 4rem;
+    padding: 2rem 2rem 4rem;
     display: flex;
     gap: 3rem;
     
@@ -59,6 +70,7 @@ $transition-speed: 0.3s;
       flex-direction: column;
       align-items: center;
       text-align: center;
+      padding-top: 4rem;
     }
   }
   
@@ -114,18 +126,13 @@ $transition-speed: 0.3s;
   }
   
   &__back-button {
-    position: absolute;
-    top: 2rem;
-    left: 2rem;
-    z-index: 3;
-
     background-color: rgba($color-accent, 0.8);
     backdrop-filter: blur(5px);
     color: white; 
     border: 1px solid rgba(white, 0.2);
-    padding: 0.5rem 1.5rem; 
-    border-radius: 6px; 
-    font-size: 0.9rem; 
+    padding: 0.75rem 1.5rem;
+    border-radius: 8px; 
+    font-size: 1rem; 
     font-weight: 600; 
     cursor: pointer; 
     transition: background-color $transition-speed ease;
@@ -145,7 +152,6 @@ $transition-speed: 0.3s;
     max-width: 1200px;
     margin: 0 auto;
     padding: 0 2rem;
-
     &:not(:last-child) {
       margin-bottom: 4rem;
     }
@@ -167,34 +173,21 @@ $transition-speed: 0.3s;
   margin: 0 -2rem;
   padding: 0 2rem;
   position: relative;
-
-  .swiper-slide {
-    width: 160px;
-  }
-  
+  .swiper-slide { width: 160px; }
   .swiper-button-next, .swiper-button-prev {
     color: $color-accent;
     top: 40%;
-
-    &.swiper-button-next {
-      right: 0;
-    }
-    &.swiper-button-prev {
-      left: 0;
-    }
-
-    &:after {
-      font-size: 2rem !important;
-      text-shadow: 0 0 10px $color-background;
-    }
-
+    &.swiper-button-next { right: 0; }
+    &.swiper-button-prev { left: 0; }
+    &:after { font-size: 2rem !important; text-shadow: 0 0 10px $color-background; }
+    @media (max-width: 768px) { display: none; }
   }
 }
 
 .actor-card {
   text-align: center;
   transition: transform $transition-speed ease;
-  
+  &:hover { transform: scale(1.05); }
   &__image-wrapper {
     width: 100%;
     aspect-ratio: 2 / 3;
@@ -205,11 +198,7 @@ $transition-speed: 0.3s;
     box-shadow: 0 4px 10px rgba(0,0,0,0.3);
     img { width: 100%; height: 100%; object-fit: cover; }
   }
-
-  &__placeholder {
-    width: 100%; height: 100%;
-  }
-
+  &__placeholder { width: 100%; height: 100%; }
   &__name {
     font-weight: 600;
     font-size: 1rem;
@@ -218,12 +207,44 @@ $transition-speed: 0.3s;
     overflow: hidden;
     text-overflow: ellipsis;
   }
-
   &__character {
     font-size: 0.9rem;
     opacity: 0.7;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+  }
+}
+
+.favorite-button {
+  padding: 0.75rem 1.5rem;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 600;
+  flex-shrink: 0;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 2px solid;
+  transition: all 0.3s ease;
+  
+  background: none;
+  border-color: $color-accent;
+  color: $color-accent;
+  
+  &:hover {
+    background-color: $color-accent;
+    color: white;
+  }
+
+  &.active {
+    background-color: #28a745;
+    border-color: #28a745;
+    color: white;
+    &:hover {
+      background-color: lighten(#28a745, 10%);
+      border-color: lighten(#28a745, 10%);
+    }
   }
 }
