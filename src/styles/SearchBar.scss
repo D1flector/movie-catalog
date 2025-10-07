@@ -5,6 +5,7 @@ $transition-speed: 0.3s;
 $card-background: #22252c;
 
 .search-bar {
+  position: relative;
   display: flex;
   align-items: center;
   background-color: $card-background;
@@ -13,6 +14,7 @@ $card-background: #22252c;
   padding: 0.2rem 0.25rem 0.2rem 1rem;
   transition: border-color $transition-speed ease, box-shadow $transition-speed ease;
   min-width: 220px;
+  z-index: 100;
 
   &:focus-within {
     border-color: $color-accent;
@@ -58,5 +60,31 @@ $card-background: #22252c;
       color: white;
       background-color: $color-accent;
     }
+  }
+}
+
+.search-results {
+  position: absolute;
+  top: 120%;
+  left: 50%;
+  transform: translateX(-50%);
+  min-width: 450px;
+  background-color: $card-background;
+  border-radius: 12px;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+  overflow: hidden;
+  border: 1px solid lighten($card-background, 10%);
+
+  ul {
+    list-style: none;
+    padding: 0;
+    margin: 0.5rem 0;
+  }
+
+  &__loader, &__no-results {
+    padding: 1.5rem;
+    text-align: center;
+    color: darken($color-text, 20%);
+    font-size: 0.9rem;
   }
 }

@@ -37,7 +37,7 @@ export const api = createApi({
     getTvShowDetails: build.query<TvDetails, number>({
       query: (id) => `/tv/${id}?api_key=${API_KEY}&language=ru-RU&append_to_response=videos,credits`,
     }),
-    getSearchResultt: build.query<PaginatedResponse<MovieListItem | TvListItem>, SearchArgs>({
+    getSearchResults: build.query<PaginatedResponse<MovieListItem | TvListItem>, SearchArgs>({
       query: ({ query, page = 1 }) => `/search/multi?api_key=${API_KEY}&language=ru-RU&query=${encodeURIComponent(query)}&page=${page}`,
     }),
 
@@ -53,5 +53,5 @@ export const {
   useGetTopRatedTvShowsQuery,
   useGetOnTheAirTvShowsQuery,
   useGetTvShowDetailsQuery,
-  useGetSearchResulttQuery,
+  useGetSearchResultsQuery,
 } = api;
