@@ -1,0 +1,111 @@
+$color-background: #181a1f;
+$color-text: #e2e2e2;
+$color-accent: #9f5dff;
+$transition-speed: 0.3s;
+$card-background: #22252c;
+$color-red-accent: #ff5d5d;
+
+.home-page-loader {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: calc(100vh - 80px);
+  font-size: 1.5rem;
+}
+
+.home-page {
+  position: fixed;
+  top: 80px;
+  left: 0;
+  right: 0;
+  bottom: 0;  
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+  text-align: center;
+  overflow: hidden;
+  
+  background-color: $color-background;
+  background-size: cover;
+  background-position: center;
+  transition: background-image 1s ease-in-out;
+
+  &__overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba($color-background, 0.85);
+    backdrop-filter: blur(8px);
+    z-index: 1;
+  }
+
+  &__content {
+    position: relative;
+    z-index: 3;
+    max-width: 800px;
+    color: white;
+  }
+
+  &__title {
+    font-size: 5rem;
+    font-weight: 800;
+    letter-spacing: 2px;
+    margin-bottom: 1rem;
+    text-shadow: 2px 2px 10px rgba(0,0,0,0.5);
+
+    @media (max-width: 768px) {
+      font-size: 3rem;
+    }
+  }
+
+  &__subtitle {
+    font-size: 1.2rem;
+    color: $color-text;
+    opacity: 0.9;
+    line-height: 1.6;
+    margin-bottom: 2.5rem;
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  &__actions {
+    display: flex;
+    justify-content: center;
+    gap: 1.5rem;
+  }
+
+  &__button {
+    padding: 0.8rem 2.5rem;
+    border-radius: 25px;
+    font-size: 1.1rem;
+    font-weight: 600;
+    text-decoration: none;
+    border: 2px solid transparent;
+    transition: all $transition-speed ease;
+
+    &--primary {
+      background-color: transparent;
+      border-color: white;
+      color: white;
+
+      &:hover {
+        background-color: white;
+        color: $color-background;
+      }
+    }
+
+    &--secondary {
+      background-color: $color-red-accent;
+      color: white;
+
+      &:hover {
+        background-color: lighten($color-red-accent, 10%);
+        transform: scale(1.05);
+      }
+    }
+  }
+}
