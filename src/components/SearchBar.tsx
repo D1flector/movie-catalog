@@ -32,8 +32,12 @@ const SearchBar = () => {
     setQuery('');
   };
 
+  function handleSubmit(e: React.FormEvent) {
+    e.preventDefault();
+  }
+
   return (
-    <form className="search-bar" ref={searchBarRef}>
+    <form className="search-bar" ref={searchBarRef} onSubmit={handleSubmit}>
       <input
         className="search-bar__input"
         type="text"
