@@ -6,7 +6,7 @@ describe('favouriteSlice reducers', () => {
      const initialState = favouriteReducer(undefined, {type: 'unknown'});
 
      expect(initialState.items).toEqual([]);
-  }),
+  });
   
   test('Должен добавлять новый элемент в пустой список', () => {
     const previousState = { items: [] };
@@ -15,15 +15,23 @@ describe('favouriteSlice reducers', () => {
 
     expect(newState.items.length).toBe(1);
     expect(newState.items[0]).toEqual(newItem);
-  }),
+  });
 
   test('Должен не добавлять дубликат элемента в список', () => {
     const existingItem: FavouriteItem = {id: 550, type: 'movie'};
     const previousState = { items: [existingItem] };
-    const duplicateItem: FavouriteItem = {id: 550, type: 'movie'}
+    const duplicateItem: FavouriteItem = {id: 550, type: 'movie'};
     const newState = favouriteReducer(previousState, addFavourite(duplicateItem));
     
     expect(newState.items.length).toBe(1);
     expect(newState.items).toEqual(previousState.items);
-  }),
+  });
+
+  test('Должен удалять элемент из списка', () => {
+    const existingItem: FavouriteItem = {id: 550, type: 'movie'};
+    const previousState = { items: [existingItem] }
+    const newState = favouriteReducer(previousState, deleteFavourite(existingItem))
+
+    expect(newState.items.length).toBe(0)
+  });
 })
