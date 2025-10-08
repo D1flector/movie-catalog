@@ -1,3 +1,5 @@
+@use "sass:color";
+
 $color-background: #181a1f;
 $color-text: #e2e2e2;
 $color-accent: #9f5dff;
@@ -122,7 +124,7 @@ $transition-speed: 0.3s;
 
   &__overview-text {
     font-size: 1.1rem; line-height: 1.6; max-width: 700px;
-    color: darken($color-text, 15%);
+    color: color.adjust($color-text, $lightness: -15%);
   }
   
   &__back-button {
@@ -243,8 +245,8 @@ $transition-speed: 0.3s;
     border-color: #28a745;
     color: white;
     &:hover {
-      background-color: lighten(#28a745, 10%);
-      border-color: lighten(#28a745, 10%);
+      background-color: color.adjust(#28a745, $lightness: 10%);
+      border-color: color.adjust(#28a745, $lightness: 10%);
     }
   }
 }

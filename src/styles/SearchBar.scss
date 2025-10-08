@@ -1,3 +1,5 @@
+@use "sass:color";
+
 $color-background: #181a1f;
 $color-text: #e2e2e2;
 $color-accent: #9f5dff;
@@ -9,7 +11,7 @@ $card-background: #22252c;
   display: flex;
   align-items: center;
   background-color: $card-background;
-  border: 1px solid lighten($card-background, 10%);
+  border: 1px solid color.adjust($card-background, $lightness: 10%);
   border-radius: 25px;
   padding: 0.2rem 0.25rem 0.2rem 1rem;
   transition: border-color $transition-speed ease, box-shadow $transition-speed ease;
@@ -34,14 +36,14 @@ $card-background: #22252c;
     }
 
     &::placeholder {
-      color: darken($color-text, 40%);
+      color: color.adjust($color-text, $lightness: -40%);
     }
   }
 
   &__button {
     background-color: transparent;
     border: none;
-    color: darken($color-text, 30%);
+    color: color.adjust($color-text, $lightness: -30%);
     padding: 0.4rem;
     margin-left: 0.25rem;
     border-radius: 50%;
@@ -73,7 +75,7 @@ $card-background: #22252c;
   border-radius: 12px;
   box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
   overflow: hidden;
-  border: 1px solid lighten($card-background, 10%);
+  border: 1px solid color.adjust($card-background, $lightness: 10%);
 
   ul {
     list-style: none;
@@ -84,7 +86,7 @@ $card-background: #22252c;
   &__loader, &__no-results {
     padding: 1.5rem;
     text-align: center;
-    color: darken($color-text, 20%);
+    color: color.adjust($color-text, $lightness: -20%);
     font-size: 0.9rem;
   }
 }

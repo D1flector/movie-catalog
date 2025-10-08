@@ -1,3 +1,4 @@
+@use "sass:color";
 $color-text: #e2e2e2;
 $transition-speed: 0.3s;
 $card-background: #22252c;
@@ -13,7 +14,7 @@ $card-background: #22252c;
   color: $color-text;
 
   &:hover {
-    background-color: lighten($card-background, 5%);
+    background-color: color.adjust($card-background, $lightness: 5%);
   }
 
   &__poster {
@@ -22,7 +23,7 @@ $card-background: #22252c;
     object-fit: cover;
     border-radius: 4px;
     flex-shrink: 0;
-    background-color: darken($card-background, 5%);
+    background-color: color.adjust($card-background, $lightness: -5%);
   }
 
   &__info {
@@ -39,7 +40,7 @@ $card-background: #22252c;
 
   &__meta {
     font-size: 0.85rem;
-    color: darken($color-text, 30%);
+    color: color.adjust($color-text, $lightness: -30%);
     margin: 0;
   }
 }

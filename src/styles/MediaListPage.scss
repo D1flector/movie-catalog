@@ -1,3 +1,5 @@
+@use "sass:color";
+
 $color-background: #181a1f;
 $color-text: #e2e2e2;
 $color-accent: #9f5dff;
@@ -38,7 +40,7 @@ $card-background: #22252c;
   &__filters {
     display: flex;
     gap: 1rem;
-    background-color: darken($color-background, 3%);
+    background-color: color.adjust($color-background, $lightness: -3%);
     padding: 0.5rem;
     border-radius: 8px;
   }
@@ -68,13 +70,13 @@ $card-background: #22252c;
   &__label {
     font-size: 1.1rem;
     font-weight: 500;
-    color: darken($color-text, 10%);
+    color: color.adjust($color-text, $lightness: -10%);
   }
 
   &__select {
     background-color: $card-background;
     color: $color-text;
-    border: 1px solid lighten($card-background, 5%);
+    border: 1px solid color.adjust($card-background, $lightness: 5%);
     border-radius: 6px;
     padding: 0.5rem 1rem;
     font-size: 1rem;
@@ -110,7 +112,7 @@ $card-background: #22252c;
   transition: background-color $transition-speed ease, color $transition-speed ease;
 
   &:hover {
-    background-color: lighten($card-background, 5%);
+    background-color: color.adjust($card-background, $lightness: 5%);
   }
 
   &.active {
@@ -130,13 +132,13 @@ $card-background: #22252c;
   &__info {
     font-size: 1.2rem;
     font-weight: 500;
-    color: darken($color-text, 10%);
+    color: color.adjust($color-text, $lightness: -10%);
   }
 
   &__button {
     background-color: $card-background;
     color: $color-text;
-    border: 1px solid lighten($card-background, 10%);
+    border: 1px solid color.adjust($card-background, $lightness: 10%);
     padding: 0.4rem 1.2rem;
     border-radius: 6px;
     font-size: 0.9rem;

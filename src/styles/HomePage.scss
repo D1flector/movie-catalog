@@ -1,3 +1,5 @@
+@use "sass:color";
+
 $color-background: #181a1f;
 $color-text: #e2e2e2;
 $color-accent: #9f5dff;
@@ -103,7 +105,7 @@ $color-red-accent: #ff5d5d;
       color: white;
 
       &:hover {
-        background-color: lighten($color-red-accent, 10%);
+        background-color: color.adjust($color-red-accent, $lightness: 10%);
         transform: scale(1.05);
       }
     }
