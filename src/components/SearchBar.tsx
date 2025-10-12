@@ -23,9 +23,12 @@ const SearchBar = () => {
         setIsFocused(false);
       }
     };
+        if (debouncedQuery.length > 1 && data) {
+      console.log(`Результаты для запроса: "${debouncedQuery}"`, data);
+    }
     document.addEventListener('mousedown', handleClickOutside);
     return () => document.removeEventListener('mousedown', handleClickOutside);
-  }, []);
+  }, [data, debouncedQuery]);
   
   const handleResultClick = () => {
     setIsFocused(false);
