@@ -1,4 +1,5 @@
-import{ useMediaList } from '../hooks/useMediaList';
+import React, { useState, useCallback } from 'react';
+import { useMediaList } from '../hooks/useMediaList';
 import type { MediaSortType } from '../hooks/useMediaList';
 import MovieCard from '../components/MovieCard'; 
 import '../styles/MediaListPage.scss';
@@ -13,8 +14,28 @@ const MoviesPage = () => {
     handlePageChange,
     handleSortChange,
   } = useMediaList('movie');
+  
+  const [isClickBlocked, setIsClickBlocked] = useState(false);
+  const BLOCK_DURATION_MS = 500;
 
-  if (isLoading) {
+  const blockAndPerformAction = useCallback((action: () => void) => {
+    if (isClickBlocked || isLoading) {
+      return;
+    }
+    
+    setIsClickBlocked(true);
+    action();
+    
+    const timer = setTimeout(() => {
+      setIsClickBlocked(false);
+    }, BLOCK_DURATION_MS);
+
+    return () => clearTimeout(timer);
+    
+  }, [isClickBlocked, isLoading]); 
+
+
+  if (isLoading && currentPage === 1 && (sortType === 'popular' || sortType === 'top_rated' || sortType === 'now_playing')) {
     return <div className="media-list-page__loader">Загрузка...</div>;
   }
 
@@ -22,7 +43,14 @@ const MoviesPage = () => {
     return <div className="media-list-page__error">Произошла ошибка при загрузке фильмов.</div>;
   }
   
-  const onSortChange = (type: MediaSortType) => handleSortChange(type);
+  const onSortChange = (type: MediaSortType) => {
+    blockAndPerformAction(() => handleSortChange(type));
+  };
+
+  const onPageChange = (page: number) => {
+    blockAndPerformAction(() => handlePageChange(page));
+  };
+
 
   return (
     <div className="media-list-page">
@@ -37,18 +65,21 @@ const MoviesPage = () => {
           <button 
             className={`filter-button ${sortType === 'popular' ? 'active' : ''}`}
             onClick={() => onSortChange('popular')}
+            disabled={isClickBlocked || isLoading}
           >
             Популярные
           </button>
           <button 
             className={`filter-button ${sortType === 'top_rated' ? 'active' : ''}`}
             onClick={() => onSortChange('top_rated')}
+            disabled={isClickBlocked || isLoading}
           >
             Топ рейтинга
           </button>
           <button 
             className={`filter-button ${sortType === 'now_playing' ? 'active' : ''}`}
             onClick={() => onSortChange('now_playing')}
+            disabled={isClickBlocked || isLoading}
           >
             Сейчас в кино
           </button>
@@ -64,8 +95,8 @@ const MoviesPage = () => {
       {data && data.results.length > 0 && (
         <div className="pagination">
           <button 
-            onClick={() => handlePageChange(currentPage - 1)}
-            disabled={currentPage === 1}
+            onClick={() => onPageChange(currentPage - 1)}
+            disabled={currentPage === 1 || isClickBlocked || isLoading} 
             className="pagination__button"
           >
             Назад
@@ -74,8 +105,8 @@ const MoviesPage = () => {
             Страница {currentPage} из {data.total_pages > 500 ? 500 : data.total_pages}
           </span>
           <button 
-            onClick={() => handlePageChange(currentPage + 1)}
-            disabled={currentPage >= (data.total_pages > 500 ? 500 : data.total_pages)}
+            onClick={() => onPageChange(currentPage + 1)}
+            disabled={currentPage >= (data.total_pages > 500 ? 500 : data.total_pages) || isClickBlocked || isLoading}
             className="pagination__button"
           >
             Вперед
