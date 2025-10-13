@@ -6,6 +6,8 @@ import { Navigation } from 'swiper/modules';
 import 'swiper/css';
 import 'swiper/css/navigation';
 
+import LoadingSpinner from '../components/LoadingSpinner';
+
 import { useSelector, useDispatch } from 'react-redux';
 import { addFavourite, deleteFavourite } from '../store/slices/favouriteSlice';
 import type { FavouriteItem } from '../store/slices/favouriteSlice';
@@ -39,7 +41,7 @@ const MoviePage = () => {
     }
   };
 
-  if (isLoading) return <div className="media-page-status">Загрузка...</div>;
+  if (isLoading) return <LoadingSpinner />;;
   if (error || !movie) return <div className="media-page-status">Не удалось загрузить информацию о фильме.</div>;
 
   const releaseDate = new Date(movie.release_date).toLocaleString('ru-RU', { year: 'numeric', month: 'long', day: 'numeric' });

@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom';
 import { useGetPopularMoviesQuery } from '../services/api';
 import '../styles/HomePage.scss';
+import LoadingSpinner from '../components/LoadingSpinner';
 
 const HomePage = () => {
   const { data: popularMovies, isLoading } = useGetPopularMoviesQuery(1);
@@ -10,7 +11,7 @@ const HomePage = () => {
     : {};
 
   if (isLoading) {
-    return <div className="home-page-loader">Загрузка...</div>;
+    return <LoadingSpinner />;
   }
 
   return (

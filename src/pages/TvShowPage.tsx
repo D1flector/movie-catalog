@@ -5,6 +5,7 @@ import { Swiper, SwiperSlide } from 'swiper/react';
 import { Navigation } from 'swiper/modules';
 import 'swiper/css';
 import 'swiper/css/navigation';
+import LoadingSpinner from '../components/LoadingSpinner';
 
 import { useSelector, useDispatch } from 'react-redux';
 import { addFavourite, deleteFavourite } from '../store/slices/favouriteSlice';
@@ -62,7 +63,7 @@ const TvShowPage = () => {
     }
   };
 
-  if (isLoading) return <div className="media-page-status">Загрузка...</div>;
+  if (isLoading) return <LoadingSpinner />;
   if (error || !tvShow) return <div className="media-page-status">Не удалось загрузить информацию о сериале.</div>;
 
   const trailer = tvShow.videos?.results.find(video => video.type === 'Trailer' && video.site === 'YouTube');

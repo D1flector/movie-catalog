@@ -3,6 +3,7 @@ import { useMediaList } from '../hooks/useMediaList';
 import type { MediaSortType } from '../hooks/useMediaList';
 import TvCard from '../components/TvCard';
 import '../styles/MediaListPage.scss';
+import LoadingSpinner from '../components/LoadingSpinner';
 
 const TvShowsPage = () => {
   const {
@@ -36,7 +37,7 @@ const TvShowsPage = () => {
 
 
   if (isLoading) {
-    return <div className="media-list-page__loader">Загрузка...</div>;
+    return <LoadingSpinner />;
   }
 
   if (error) {
@@ -96,7 +97,6 @@ const TvShowsPage = () => {
         <div className="pagination">
           <button 
             onClick={() => onPageChange(currentPage - 1)}
-            // КОМБИНИРОВАННАЯ БЛОКИРОВКА
             disabled={currentPage === 1 || isClickBlocked || isLoading} 
             className="pagination__button"
           >

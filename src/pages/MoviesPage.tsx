@@ -3,6 +3,7 @@ import { useMediaList } from '../hooks/useMediaList';
 import type { MediaSortType } from '../hooks/useMediaList';
 import MovieCard from '../components/MovieCard'; 
 import '../styles/MediaListPage.scss';
+import LoadingSpinner from '../components/LoadingSpinner';
 
 const MoviesPage = () => {
   const {
@@ -36,7 +37,7 @@ const MoviesPage = () => {
 
 
   if (isLoading && currentPage === 1 && (sortType === 'popular' || sortType === 'top_rated' || sortType === 'now_playing')) {
-    return <div className="media-list-page__loader">Загрузка...</div>;
+    return <LoadingSpinner />;
   }
 
   if (error) {
