@@ -1,0 +1,59 @@
+@use "sass:color";
+$color-background: #181a1f;
+$color-text: #e2e2e2;
+$color-accent: #9f5dff;
+$transition-speed: 0.3s;
+
+$header-height: 80px; 
+
+
+.not-found-page {
+    min-height: calc(100vh - $header-height); 
+    height: calc(100vh - $header-height); 
+    display: flex;
+    flex-direction: column;
+    align-items: center; 
+    justify-content: center;
+    text-align: center;
+    padding: 0 20px; 
+    background-color: $color-background; 
+    color: $color-text;
+    
+    &__animation-container {
+        margin-bottom: 25px;
+    }
+    
+    &__title {
+        font-size: 2.5rem;
+        font-weight: 700;
+        margin-top: 10px;
+        margin-bottom: 8px;
+        color: $color-accent; 
+    }
+    
+    &__text {
+        font-size: 1.1rem;
+        max-width: 500px;
+        margin-bottom: 30px;
+        line-height: 1.6;
+        color: color.adjust($color-text, $lightness: -15%);
+    }
+    
+    &__link {
+        display: inline-block;
+        padding: 12px 25px;
+        background-color: rgba($color-accent, 0.8);
+        color: white;
+        text-decoration: none;
+        border-radius: 8px;
+        font-size: 1rem;
+        font-weight: 600;
+        cursor: pointer;
+        border: 2px solid $color-accent;
+        transition: background-color $transition-speed ease;
+        
+        &:hover {
+            background-color: $color-accent;
+        }
+    }
+}
