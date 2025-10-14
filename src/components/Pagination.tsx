@@ -1,5 +1,6 @@
 import React from 'react';
-import { usePagination } from '../hooks/usePagination';
+import { usePagination, DOTS } from '../hooks/usePagination';
+import '../styles/Pagination.scss'
 
 interface PaginationProps {
   totalPages: number;
@@ -7,44 +8,59 @@ interface PaginationProps {
   onPageChange: (page: number) => void;
   isLoading: boolean;
   isClickBlocked: boolean;
+  siblingCount?: number;
 }
 
-const Pagination: React.FC<PaginationProps> = ({ totalPages, currentPage, onPageChange, isLoading, isClickBlocked }) => {
-
+const Pagination: React.FC<PaginationProps> = ({
+  totalPages,
+  currentPage,
+  onPageChange,
+  siblingCount = 2,
+}) => {
   const {
-    finalTotalPages,
+    paginationRange,
     isFirstPage,
     isLastPage,
     handleNextPage,
     handlePreviousPage,
-  } = usePagination({ totalPages, currentPage, onPageChange });
+  } = usePagination({ totalPages, currentPage, onPageChange, siblingCount });
 
-  if (finalTotalPages <= 1) {
+  if (currentPage === 0 || paginationRange.length < 2) {
     return null;
   }
 
   return (
-    <div className="pagination">
-      <button
+    <ul className="pagination-container">
+      <li
+        className={`pagination-item ${isFirstPage ? 'disabled' : ''}`}
         onClick={handlePreviousPage}
-        disabled={isFirstPage || isLoading || isClickBlocked}
-        className="pagination__button"
       >
-        Назад
-      </button>
+        <div className="arrow left" />
+      </li>
 
-      <span className="pagination__info">
-        Страница {currentPage} из {finalTotalPages}
-      </span>
+      {paginationRange.map((pageNumber, index) => {
+        if (pageNumber === DOTS) {
+          return <li key={DOTS + index} className="pagination-item dots">...</li>;
+        }
 
-      <button
+        return (
+          <li
+            key={pageNumber}
+            className={`pagination-item ${pageNumber === currentPage ? 'selected' : ''}`}
+            onClick={() => onPageChange(pageNumber as number)}
+          >
+            {pageNumber}
+          </li>
+        );
+      })}
+
+      <li
+        className={`pagination-item ${isLastPage ? 'disabled' : ''}`}
         onClick={handleNextPage}
-        disabled={isLastPage || isLoading || isClickBlocked}
-        className="pagination__button"
       >
-        Вперед
-      </button>
-    </div>
+        <div className="arrow right" />
+      </li>
+    </ul>
   );
 };
 
