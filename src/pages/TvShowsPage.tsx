@@ -4,6 +4,7 @@ import type { MediaSortType } from '../hooks/useMediaList';
 import TvCard from '../components/TvCard';
 import '../styles/MediaListPage.scss';
 import LoadingSpinner from '../components/LoadingSpinner';
+import Pagination from '../components/Pagination';
 
 const TvShowsPage = () => {
   const {
@@ -94,25 +95,13 @@ const TvShowsPage = () => {
       </div>
 
       {data && data.results.length > 0 && (
-        <div className="pagination">
-          <button 
-            onClick={() => onPageChange(currentPage - 1)}
-            disabled={currentPage === 1 || isClickBlocked || isLoading} 
-            className="pagination__button"
-          >
-            Назад
-          </button>
-          <span className="pagination__info">
-            Страница {currentPage} из {data.total_pages > 500 ? 500 : data.total_pages}
-          </span>
-          <button 
-            onClick={() => onPageChange(currentPage + 1)}
-            disabled={currentPage >= (data.total_pages > 500 ? 500 : data.total_pages) || isClickBlocked || isLoading}
-            className="pagination__button"
-          >
-            Вперед
-          </button>
-        </div>
+        <Pagination
+          currentPage={currentPage}
+          totalPages={data.total_pages}
+          onPageChange={onPageChange}
+          isLoading={isLoading}
+          isClickBlocked={isClickBlocked}
+        />
       )}
     </div>
   );
