@@ -50,7 +50,14 @@ const MoviesPage = () => {
   };
 
   const onPageChange = (page: number) => {
-    blockAndPerformAction(() => handlePageChange(page));
+    blockAndPerformAction(() => {
+      handlePageChange(page);
+      
+      window.scrollTo({
+        top: 0,
+        behavior: 'smooth'
+      });
+    });
   };
 
 
