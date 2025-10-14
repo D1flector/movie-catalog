@@ -48,7 +48,7 @@ const MoviesPage = () => {
   const onSortChange = (type: MediaSortType) => {
     blockAndPerformAction(() => handleSortChange(type));
   };
-
+  
   const onPageChange = (page: number) => {
     blockAndPerformAction(() => {
       handlePageChange(page);
