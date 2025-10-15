@@ -1,36 +1,61 @@
+@use "sass:color";
+
+$color-background: #181a1f;
+$color-text: #e2e2e2;
+$color-accent: #9f5dff;
+$transition-speed: 0.3s;
+$card-background: #22252c;
+$card-shadow-color: rgba($color-accent, 0.2);
+$card-border-radius: 8px;
+
 .favourite-page {
-  padding: 2rem;
+  padding: 2rem 1.5rem; 
+  color: $color-text;
+  max-width: 1400px;
+  margin: 0 auto;
+  overflow-x: hidden;
 
   &__title {
-    font-size: 2rem;
-    margin-bottom: 2rem;
+    font-size: 1.8rem;
+    margin-bottom: 1.5rem;
     color: #fff;
+    text-align: left;
   }
 
   &__empty {
     color: #bbb;
-    font-size: 1.1rem;
+    font-size: 1rem;
+    text-align: left;
   }
 
   &__list {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-    gap: 1.5rem;
+    grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+    gap: 0.75rem;
   }
 }
 
 .favourite-card {
-  background: #1c1c1c;
-  border-radius: 10px;
+  background: $card-background;
+  border-radius: $card-border-radius;
   overflow: hidden;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
   cursor: pointer;
-  transition: transform 0.3s ease;
+  transition: transform 0.3s ease, border-color $transition-speed ease, box-shadow $transition-speed ease;
+  text-decoration: none;
+  color: $color-text;
+  border: 2px solid transparent;
+
+  &:hover {
+    transform: translateY(-5px);
+    border-color: $color-accent;
+    box-shadow: 0 8px 25px $card-shadow-color;
+  }
 
   &__image-wrapper {
     position: relative;
-    height: 330px;
-    background-color: #2a2a2a;
+    aspect-ratio: 2 / 3; 
+    background-color: color.adjust($card-background, $lightness: -5%); 
   }
 
   &__image {
@@ -46,9 +71,10 @@
     align-items: center;
     justify-content: center;
     color: #999;
-    font-size: 0.9rem;
-    padding: 1rem;
+    font-size: 0.85rem;
+    padding: 0.5rem;
     background-color: #333;
+    text-align: center;
   }
 
   &__overlay {
@@ -63,7 +89,7 @@
     display: flex;
     align-items: flex-end;
     justify-content: center;
-    padding-bottom: 1rem;
+    padding-bottom: 0.75rem;
 
     .favourite-card:hover & {
       opacity: 1;
@@ -72,34 +98,96 @@
 
   &__play {
     background-color: rgba(255, 255, 255, 0.15);
-    padding: 0.4rem 0.8rem;
+    padding: 0.3rem 0.6rem;
     border-radius: 4px;
-    font-size: 0.95rem;
+    font-size: 0.85rem;
     color: #fff;
     backdrop-filter: blur(4px);
+    white-space: nowrap;
   }
 
   &__info {
-    padding: 1rem;
+    padding: 0.75rem;
     color: #fff;
+    text-align: left;
   }
 
   &__title {
-    font-size: 1.1rem;
-    margin: 0 0 0.5rem 0;
+    font-size: 1rem;
+    margin: 0 0 0.4rem 0;
+    line-height: 1.3;
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    text-overflow: ellipsis;
+    text-align: left;
   }
 
   &__meta {
-    font-size: 0.95rem;
+    font-size: 0.85rem;
     color: #bbb;
     display: flex;
-    gap: 0.5rem;
+    gap: 0.4rem;
     flex-wrap: wrap;
+    text-align: left;
   }
 
   &__type {
-    margin-top: 0.5rem;
-    font-size: 0.85rem;
+    margin-top: 0.4rem;
+    font-size: 0.75rem;
     color: #888;
+    text-align: left;
+  }
+}
+
+@media (min-width: 401px) {
+  .favourite-page {
+    padding: 2rem 2rem;
+    
+    &__title {
+      font-size: 2rem;
+      margin-bottom: 2rem;
+    }
+    
+    &__empty {
+      font-size: 1.1rem;
+    }
+    
+    &__list {
+      grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+      gap: 1rem;
+    }
+  }
+
+  .favourite-card {
+    &__no-image { font-size: 0.9rem; padding: 1rem; }
+    &__overlay { padding-bottom: 1rem; }
+    &__play { font-size: 0.95rem; padding: 0.4rem 0.8rem; }
+    &__info { padding: 1rem; }
+    &__title { font-size: 1.1rem; margin: 0 0 0.5rem 0; -webkit-line-clamp: 3; max-height: calc(1.3em * 3);}
+    &__meta { font-size: 0.95rem; gap: 0.5rem; }
+    &__type { font-size: 0.85rem; margin-top: 0.5rem; }
+  }
+}
+
+@media (min-width: 768px) {
+  .favourite-page {
+    padding: 2rem;
+    &__list {
+      grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+      gap: 1.25rem;
+    }
+  }
+}
+
+@media (min-width: 993px) {
+  .favourite-page {
+    padding: 2rem 4rem;
+    &__list {
+      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      gap: 1.5rem;
+    }
+    &__title { font-size: 2rem; }
   }
 }
