@@ -11,6 +11,7 @@ $disabled-opacity: 0.4;
   display: flex;
   align-items: center;
   justify-content: center;
+  flex-wrap: wrap; 
   list-style-type: none;
   padding: 0;
   gap: 8px;
@@ -65,5 +66,32 @@ $disabled-opacity: 0.4;
 
   &.right {
     transform: rotate(-45deg);
+  }
+}
+
+@media (max-width: 600px) {
+  .pagination-container {
+    margin: 1.5rem 0;
+    gap: 4px;
+  }
+
+  .pagination-item {
+    $compact-item-size: 2.1rem;
+    min-width: $compact-item-size;
+    height: $compact-item-size;
+    font-size: 0.85rem;
+    border-radius: 6px;
+  }
+}
+
+@media (max-width: 480px) {
+  .pagination-item {
+    &.dots {
+      display: none;
+    }
+    
+    &.dots + .pagination-item {
+      display: none;
+    }
   }
 }
