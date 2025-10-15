@@ -1,11 +1,11 @@
 @use "sass:color";
+
 $color-background: #181a1f;
 $color-text: #e2e2e2;
 $color-accent: #9f5dff;
 $transition-speed: 0.3s;
 
 $header-height: 80px; 
-
 
 .not-found-page {
     min-height: calc(100vh - $header-height); 
@@ -21,6 +21,7 @@ $header-height: 80px;
     
     &__animation-container {
         margin-bottom: 25px;
+        transition: transform 0.3s ease;
     }
     
     &__title {
@@ -50,10 +51,49 @@ $header-height: 80px;
         font-weight: 600;
         cursor: pointer;
         border: 2px solid $color-accent;
-        transition: background-color $transition-speed ease;
+        transition: background-color $transition-speed ease, padding $transition-speed ease, font-size $transition-speed ease;
         
         &:hover {
             background-color: $color-accent;
+        }
+    }
+}
+
+@media (max-width: 768px) {
+    .not-found-page {
+        &__title {
+            font-size: 2.2rem;
+        }
+        
+        &__text {
+            font-size: 1rem;
+            max-width: 450px;
+        }
+    }
+}
+
+@media (max-width: 480px) {
+    .not-found-page {
+        padding: 0 15px;
+
+        &__animation-container {
+            transform: scale(0.8);
+            margin-bottom: 10px;
+        }
+
+        &__title {
+            font-size: 1.8rem;
+            margin-top: 0;
+        }
+        
+        &__text {
+            font-size: 0.95rem;
+            margin-bottom: 25px;
+        }
+        
+        &__link {
+            padding: 10px 20px;
+            font-size: 0.9rem;
         }
     }
 }
