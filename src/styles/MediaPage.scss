@@ -18,6 +18,7 @@ $transition-speed: 0.3s;
 
 .media-page {
   position: relative;
+  overflow-x: hidden;
 
   &__backdrop {
     position: absolute;
@@ -54,9 +55,11 @@ $transition-speed: 0.3s;
     z-index: 3;
     max-width: 1200px;
     margin: 0 auto;
-    padding: 1rem 1rem 0;
+    padding: 1rem 2rem 0; 
     display: flex;
-    justify-content: space-between;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.75rem;
     align-items: center;
   }
 
@@ -65,7 +68,7 @@ $transition-speed: 0.3s;
     z-index: 2;
     max-width: 1200px;
     margin: 0 auto;
-    padding: 2rem 1rem 3rem;
+    padding: 2rem 2rem 3rem; 
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -138,9 +141,54 @@ $transition-speed: 0.3s;
     text-align: left;
   }
   
-  &__back-button, .favorite-button {
-    padding: 0.6rem 1.2rem;
-    font-size: 0.9rem;
+  &__back-button {
+    background-color: rgba($color-accent, 0.8);
+    backdrop-filter: blur(5px);
+    color: white; 
+    border: 1px solid rgba(white, 0.2);
+    padding: 0.75rem 1.5rem;
+    border-radius: 8px; 
+    font-size: 1rem; 
+    font-weight: 600; 
+    cursor: pointer; 
+    transition: background-color $transition-speed ease;
+    
+    &:hover { 
+      background-color: $color-accent; 
+    }
+  }
+
+  .favorite-button {
+    padding: 0.75rem 1.5rem;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-weight: 600;
+    flex-shrink: 0;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border: 2px solid;
+    transition: all 0.3s ease;
+    
+    background: none;
+    border-color: $color-accent;
+    color: $color-accent;
+    
+    &:hover {
+      background-color: $color-accent;
+      color: white;
+    }
+
+    &.active {
+      background-color: #28a745;
+      border-color: #28a745;
+      color: white;
+      &:hover {
+        background-color: color.adjust(#28a745, $lightness: 10%);
+        border-color: color.adjust(#28a745, $lightness: 10%);
+      }
+    }
   }
 
   &__details-wrapper {
@@ -152,7 +200,7 @@ $transition-speed: 0.3s;
   &__section {
     max-width: 1200px;
     margin: 0 auto;
-    padding: 0 1rem;
+    padding: 0 2rem;
     &:not(:last-child) {
       margin-bottom: 3rem;
     }
@@ -178,14 +226,14 @@ $transition-speed: 0.3s;
 }
 
 .cast-slider {
-  margin: 0 -1rem;
-  padding: 0 1rem;
+  margin: 0 -2rem; 
+  padding: 0 2rem;
   position: relative;
   
   .swiper-slide { width: 140px; }
   
   .swiper-button-next, .swiper-button-prev {
-    display: none;
+    display: none !important;
   }
 }
 
@@ -208,10 +256,62 @@ $transition-speed: 0.3s;
   }
 }
 
+@media (max-width: 400px) {
+  .media-page {
+    &__top-bar {
+      padding: 1rem 1.5rem 0;
+      gap: 0.5rem;
+    }
+    &__content {
+      padding: 2rem 1.5rem 3rem;
+      gap: 1.5rem;
+    }
+    &__section {
+      padding: 0 1.5rem;
+    }
+    &__title {
+      font-size: 1.8rem;
+    }
+    &__tagline {
+      font-size: 0.9rem;
+    }
+    &__section-title {
+      font-size: 1.3rem;
+    }
+    &__overview-text {
+      font-size: 0.95rem;
+    }
+    &__back-button, .favorite-button {
+      padding: 0.5rem 1rem;
+      font-size: 0.85rem;
+    }
+  }
+
+  .genre-tag {
+    font-size: 0.75rem;
+    padding: 0.3rem 0.6rem;
+  }
+  .cast-slider {
+    margin: 0 -1.5rem;
+    padding: 0 1.5rem;
+    .swiper-slide { width: 120px; }
+  }
+  .actor-card {
+    &__name { font-size: 0.85rem; }
+    &__character { font-size: 0.75rem; }
+  }
+}
+
 @media (min-width: 768px) {
   .media-page {
     &__backdrop { height: 65vh; }
-    &__top-bar, &__section { padding: 2rem; }
+    &__top-bar { 
+        padding: 2rem 2rem 0;
+        flex-wrap: nowrap;
+        justify-content: space-between;
+        gap: 3rem;
+    }
+    &__section { padding: 0 2rem; }
     
     &__content {
       flex-direction: row;
@@ -229,9 +329,11 @@ $transition-speed: 0.3s;
   }
 
   .cast-slider {
+    margin: 0 -2rem;
+    padding: 0 2rem;
     .swiper-slide { width: 160px; }
     .swiper-button-next, .swiper-button-prev {
-      display: block;
+      display: block !important;
       color: $color-accent;
       top: 40%;
       &.swiper-button-next { right: 0; }
