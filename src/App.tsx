@@ -6,6 +6,7 @@ import FavoritesPage from "./pages/FavoritesPage"
 import TvShowsPage from "./pages/TvShowsPage"
 import TvShowPage from "./pages/TvShowPage"
 import MoviePage from "./pages/MoviePage"
+import ScanerPage from "./pages/ScanerPage"
 
 import Header from "./components/Header"
 import './styles/App.scss'
@@ -24,6 +25,7 @@ function App() {
         <Route path="/tv/:id" element={ <TvShowPage /> } />
         <Route path="/favorites" element={ <FavoritesPage /> } />
         <Route path="*" element={ <NotFoundPage /> } />
+        <Route path="/scaner" element={ <ScanerPage /> } />
       </Routes>
     </>
   )
