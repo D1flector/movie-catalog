@@ -44,3 +44,23 @@ $card-background: #22252c;
     margin: 0;
   }
 }
+
+@media (max-width: 992px) {
+  .search-result-item {
+    gap: 0.75rem;
+    padding: 0.6rem 0.75rem;
+
+    &__poster {
+      width: 45px;
+      height: 68px;
+    }
+    
+    &__title {
+      font-size: 0.9rem;
+    }
+
+    &__meta {
+      font-size: 0.8rem;
+    }
+  }
+}
