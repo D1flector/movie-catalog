@@ -69,6 +69,10 @@ $transition-speed: 0.3s;
     &--open {
       transform: translateX(0);
     }
+    
+    .search-bar {
+      order: -1;
+    }
   }
 
   &__link {
@@ -140,6 +144,10 @@ $transition-speed: 0.3s;
       gap: 2rem;
       z-index: 1;
       margin-left: 10rem;
+      
+      .search-bar {
+        order: initial;
+      }
     }
 
     &__link {
