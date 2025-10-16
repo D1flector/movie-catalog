@@ -37,7 +37,6 @@ const Header = () => {
           <NavLink to='/movies' className="header__link" onClick={handleLinkClick}>Фильмы</NavLink>
           <NavLink to='/tv' className="header__link" onClick={handleLinkClick}>Сериалы</NavLink>
           <NavLink to='/favorites' className="header__link" onClick={handleLinkClick}>Избранное</NavLink>
-          <NavLink to='/scaner' className="header__link" onClick={handleLinkClick}>Сканер</NavLink>
           <SearchBar />
         </nav>
       </div>
